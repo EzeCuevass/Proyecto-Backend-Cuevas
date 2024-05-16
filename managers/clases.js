@@ -4,18 +4,19 @@ import { title } from 'process'
 export class ProductManager {
     constructor(){
         // this.products = []
-        this.path = "./products.json"    
+        this.path = "./db/products.json"    
     }
     async getProducts(){
         if (fs.existsSync(this.path)){
             const productsFile = await fs.promises.readFile(this.path, "utf-8")
             return JSON.parse(productsFile)
         } else {
+            console.log("asdfasdf");
             return []
         }
         // return this.products;
     }
-    async addProduct(title,description, price, thumbnail, code = 0, stock){
+    async addProduct(title,description, price, thumbnail, code = 0, stock,categories, status = true){
         const products = await this.getProducts();
         const newProduct = {
             id: await this.#createId() + 1,
@@ -24,7 +25,9 @@ export class ProductManager {
             price: price,
             thumbnail: thumbnail,
             code,
-            stock: stock
+            stock: stock,
+            categories: categories,
+            status
         }
         let arrayCodigo = products.map((product) => product.code)
         if (arrayCodigo.find(codigo => codigo == newProduct.code)) {
@@ -91,12 +94,9 @@ export class ProductManager {
 // const productManager = new ProductManager();
 
 // const pruebas = async()=> {
-    // productManager.addProduct("Tetera", "Una tetera con una esvastica", 1500, "fotoxd.jpg", 1 , 120)
-    // productManager.addProduct("Taza", "Una taza", 2000, "fotoxds.jpg", 2 , 521)
-    // console.log(await productManager.getProducts());
-    // console.log(await productManager.getProductById(1));
-    // console.log(await productManager.deleteProduct(3));
-    // console.log(await productManager.updateProduct(1,"teterainsta","tetera de la coscu army",1500,"coscu.com.jpg","c05cu",314));
+
+//     console.log(await productManager.getProducts());
+
 // }
 // pruebas()
 // productManager.addProduct("Tetera", "Una tetera con una esvastica", 1500, "fotoxd.jpg", 1 , 120)
