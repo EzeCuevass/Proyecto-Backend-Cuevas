@@ -95,7 +95,7 @@ export class ProductManager {
 
 // const pruebas = async()=> {
 
-//     console.log(await productManager.getProducts());
+    // console.log(await productManager.getProducts());
 
 // }
 // pruebas()

@@ -38,9 +38,9 @@ router.get('/:cid', async (req,res)=> {
 router.put('/:cid/product/:pid', async (req,res) => {
     try {
         const query = req.query
-        console.log(query);
-        const {pid} = req.query.pid
-        const {cid} = req.query.cid
+        const pid = req.query.pid
+        const cid = req.query.cid
+        console.log(cid);
         const newCart = await cartsManager.addtoCart(pid, cid)
         res.json(newCart)
     } catch (error) {
