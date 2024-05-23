@@ -27,15 +27,12 @@ const httpServer = app.listen(PORT, ()=>console.log(`Nkunku on port ${PORT}`));
 const socketServer = new Server(httpServer)
 
 socketServer.on('connection', async(socket)=>{
-    // console.log(socket.id);
     socketServer.emit('products', await productManager.getProducts())
     socket.on('newProduct', async(product)=>{
-        // console.log(product);
         await productManager.addProduct(product.inputTitle,product.inputDesc,product.inputPrice,product.inputThumb,product.inputCode,product.inputStock,product.inputCategories);
         socketServer.emit('products', await productManager.getProducts())
     })
     socket.on('deleteProduct', async(id)=>{
-        // console.log(id);
         await productManager.deleteProduct(id)
     })
 })

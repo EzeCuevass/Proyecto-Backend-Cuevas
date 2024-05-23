@@ -1,9 +1,6 @@
-// const fs = require('fs')
 import fs from 'fs'
-import { title } from 'process'
 export class ProductManager {
     constructor(){
-        // this.products = []
         this.path = "./db/products.json"    
     }
     async getProducts(){
@@ -14,7 +11,6 @@ export class ProductManager {
             console.log("asdfasdf");
             return []
         }
-        // return this.products;
     }
     async addProduct(title,description, price, thumbnail, code = 0, stock,categories, status = true){
         const products = await this.getProducts();
@@ -85,23 +81,8 @@ export class ProductManager {
             const newProducts = products.filter((product) => product.id !== idProduct)
             newProducts.push(newProduct)
             await fs.promises.writeFile(this.path, JSON.stringify(newProducts))
-            // console.log(newProducts);
             return "Product has been modificated"
         }
         
     }
 }
-// const productManager = new ProductManager();
-
-// const pruebas = async()=> {
-
-    // console.log(await productManager.getProducts());
-
-// }
-// pruebas()
-// productManager.addProduct("Tetera", "Una tetera con una esvastica", 1500, "fotoxd.jpg", 1 , 120)
-// productManager.addProduct("Taza", "Una taza", 2000, "fotoxds.jpg", 2 , 521)
-// productManager.addProduct("Taza", "Una taza", 2000, "fotoxds.jpg", 2 , 521)
-// productManager.addProduct("Taza", "Una taza", 2000, "fotoxds.jpg", 2 , 521)
-// console.log(productManager.getProducts())
-// console.log(productManager.getProductById(1));

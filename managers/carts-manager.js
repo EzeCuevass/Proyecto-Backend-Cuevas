@@ -8,7 +8,6 @@ export class cartManager {
     }
     async getCarts(){
         if(fs.existsSync(this.path)){
-            // console.log("asd");
             const cartsFile = await fs.promises.readFile(this.path, 'utf-8')
             return JSON.parse(cartsFile)
         } else {
@@ -34,13 +33,8 @@ export class cartManager {
             const carts = await this.getCarts()
             const product = await productManager.getProductById(idProduct);
             const cart = await this.getCartById(idCart);
-            // console.log(product);
-            // console.log(cart);
-            // console.log(cart.products.quantity);
-            // console.log(cart);
             console.log(idCart);
             const exists = cart.products.quantity
-            // console.log(exists);
             if (!exists){
                 const newCart = {
                     id: idCart,
@@ -54,7 +48,6 @@ export class cartManager {
                 await fs.promises.writeFile(this.path, JSON.stringify(newCarts))
                 return newCarts
             } else {
-                // console.log(exists);
                 const newCart = {
                     id: idCart,
                     products: {
@@ -83,11 +76,3 @@ export class cartManager {
         }
     }
 }
-// const cartsManager = new cartManager()
-// const pruebas = async()=>{
-    // cartsManager.createCart()
-    // console.log(await cartsManager.getCarts());
-    // await cartsManager.addtoCart(1, "9438b94c-e33e-4423-a9dd-b140164c37a8")
-    // console.log( await cartsManager.getCartById("9438b94c-e33e-4423-a9dd-b140164c37a8"));
-// }
-// pruebas()
