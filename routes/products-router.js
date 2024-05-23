@@ -6,7 +6,7 @@ const productManager = new ProductManager()
 router.get('/', async(req, res)=>{
     try {
         const products = await productManager.getProducts()
-        res.json(products)
+        res.render('index', { products })
     } catch (error) {
         res.json(('Server error'))
         console.log(error);
