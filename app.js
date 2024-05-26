@@ -22,7 +22,7 @@ app.use('/realTimeProducts', viewsRouter)
 
 const PORT = 8080
 
-const httpServer = app.listen(PORT, ()=>console.log(`Nkunku on port ${PORT}, ${process.cwd()}`));
+const httpServer = app.listen(PORT, ()=>console.log(`Nkunku on port ${PORT}`));
 
 const socketServer = new Server(httpServer)
 
