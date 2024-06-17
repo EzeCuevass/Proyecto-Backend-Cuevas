@@ -7,6 +7,8 @@ import handlebars from 'express-handlebars'
 import { Server } from 'socket.io';
 import viewsRouter from './routes/views-router.js'
 import { ProductManager } from './managers/product-manager.js';
+import { initMongoDB } from './db/connect.js'; 
+
 
 // Utilizacion de la clase de Product Manager, y utilizacion de express
 const productManager = new ProductManager()
@@ -27,6 +29,8 @@ app.set('view engine', 'handlebars');
 app.use('/products', productRouter);
 app.use('/carts', cartsRouter)
 app.use('/realTimeProducts', viewsRouter)
+
+initMongoDB()
 
 // Puerto: 8080
 
