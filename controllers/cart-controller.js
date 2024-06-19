@@ -44,3 +44,33 @@ export const addProdToCart = async (req,res) => {
         console.log(error);
     }
 }
+export const deleteProdInCart = async (req,res) => {
+    try {
+        const {cid} = req.params
+        const {pid} = req.params
+        const deletedProd = await cartManager.deleteProdInCart(cid,pid)
+        res.json(deletedProd)
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const updateQuantity = async (req,res) => {
+    try {
+        const {cid} = req.params
+        const {pid} = req.params
+        const {quantity} = req.body
+        const updateQuantity = await cartManager.updateQuantity(cid, pid, quantity)
+        res.json(updateQuantity)
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const emptyCart = async (req,res) => {
+    try {
+        const {cid} = req.params
+        const emptyCart = await cartManager.emptyCart(cid)
+        res.json(emptyCart) 
+    } catch (error) {
+        console.log(error);
+    }
+}

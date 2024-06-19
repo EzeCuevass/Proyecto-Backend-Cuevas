@@ -3,9 +3,14 @@ export default class ProductManager {
         this.model = model;
     }
 
-    async getAll(){
+    async getAll(page=1, limit = 5,name, sort){
         try {
-            return await this.model.find({});
+            // return await this.model.find({});
+            const filter = name ? {'name':name} : {};
+            let sortOrder= {};
+            if(sort) sortOrder.price = sort === 'asc' ? 1 : sort === 'desc' ? -1 : null;
+            const response = this.model.paginate(filter, {page, limit, sort:sortOrder})
+            return response
         } catch (error) {
             console.log(error);
         }

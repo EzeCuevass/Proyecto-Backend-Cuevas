@@ -4,9 +4,24 @@ import { ProductModel } from "../models/products_model.js";
 const prodManager = new ProductManager(ProductModel)
 
 export const getAllProducts = async (req, res) => {
-    try {
-        const products = await prodManager.getAll();
-        res.json(products)
+    try { 
+        const {page, limit,name, sort} = req.query;
+        const response = await prodManager.getAll(page, limit,name, sort);
+        const nextLink = response.hasNextPage ?  `http://localhost:8080/products?page=${response.nextPage}` : null
+        const prevLink = response.hasPrevPage ?  `http://localhost:8080/products?page=${response.prevPage}` : null
+        res.status(200).json({
+            status: 'success',
+            payload: response.docs,
+            totalPages: response.totalPages,
+            prevPage: response.prevPage,
+            nextPage: response.nextPage,
+            page: response.page,
+            hasNextPage: response.hasNextPage,
+            hasPrevPage: response.hasPrevPage,
+            prevLink,
+            nextLink
+        })
+
     } catch (error) {
         console.log(error);
     }

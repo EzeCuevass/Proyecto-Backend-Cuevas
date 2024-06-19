@@ -1,5 +1,3 @@
-// Importaciones de librerias
-
 import express from 'express';
 import productRouter from './routes/products-router.js'
 import cartsRouter from './routes/carts-router.js'
@@ -9,8 +7,6 @@ import viewsRouter from './routes/views-router.js'
 import { ProductManager } from './managers/product-manager.js';
 import { initMongoDB } from './db/connect.js'; 
 
-
-// Utilizacion de la clase de Product Manager, y utilizacion de express
 const productManager = new ProductManager()
 const app = express();
 
@@ -31,8 +27,6 @@ app.use('/carts', cartsRouter)
 app.use('/realTimeProducts', viewsRouter)
 
 initMongoDB()
-
-// Puerto: 8080
 
 const PORT = 8080
 

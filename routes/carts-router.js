@@ -11,5 +11,12 @@ router.post('/', controllers.createCart)
 
 router.get('/:cid', controllers.getCartById)
 
-router.put('/:cid/product/:pid', controllers.addProdToCart)
+router.post('/:cid/product/:pid', controllers.addProdToCart)
+
+router.delete('/:cid/product/:pid', controllers.deleteProdInCart)
+
+router.put('/:cid/product/:pid', controllers.updateQuantity)
+
+router.delete('/:cid', controllers.emptyCart)
+
 export default router
