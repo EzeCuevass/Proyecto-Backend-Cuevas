@@ -16,7 +16,6 @@ export const getAllCarts = async (req, res) => {
 export const createCart = async (req,res) => {
     try {
         const newCart = await cartManager.createCart()
-        console.log(newCart);
         res.json(newCart)
     } catch (error) {
         console.log(error);
@@ -27,7 +26,7 @@ export const getCartById = async (req, res) => {
     try {
         const { id } = req.query
         const Cart = await cartManager.getCartById(id)
-        res.json(Cart)
+        res.render('cart', Cart)
     } catch (error) {
         console.log(error);
     }

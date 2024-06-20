@@ -5,8 +5,15 @@ import handlebars from 'express-handlebars'
 import { Server } from 'socket.io';
 import viewsRouter from './routes/views-router.js'
 import { ProductManager } from './managers/product-manager.js';
-import { initMongoDB } from './db/connect.js'; 
+import { initMongoDB } from './db/connect.js';
+import Handlebars from 'handlebars'
+import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access';
+import CartManager from './models/dao/carts.dao.js';
+import { CartModel } from './models/carts_model.js';
+import * as services from "./services/cart.services.js"
 
+
+const cartManager = new CartManager(CartModel)
 const productManager = new ProductManager()
 const app = express();
 
@@ -16,7 +23,10 @@ app.use(express.static('./public'))
 
 // Handlebars
 
-app.engine('handlebars', handlebars.engine())
+app.engine('handlebars', handlebars.engine({
+    defaultLayout: 'main',
+    handlebars: allowInsecurePrototypeAccess(Handlebars) 
+}))
 app.set('views', './views');
 app.set('view engine', 'handlebars');
 
@@ -54,5 +64,18 @@ socketServer.on('connection', async(socket)=>{
     // el metodo deleteProduct
     socket.on('deleteProduct', async(id)=>{
         await productManager.deleteProduct(id)
+    })
+    socket.on('cart', async(cart)=>{
+        const cartFront = await cartManager.createCart()
+        socket.emit('cartFront', cartFront)
+    })
+    socket.on('addProductToCart', async (data) => {
+        const cid = data.cartId
+        const pid = data.prodId
+        const newProdinCart = await cartManager.addProdToCart(cid, pid)
+        // Lógica para agregar el producto al carrito
+    })
+    socket.on('error', (err)=>{
+        console.error('Error en Socket.io', err)
     })
 })

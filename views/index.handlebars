@@ -1,2 +1,9 @@
 {{!-- Con esto se llama al partial de products --}}
 {{>products}}
+{{#if prevPage}}
+<a href={{prevLink}}>Pagina Anterior</a>
+{{/if}}
+<br></br>
+{{#if nextPage}}
+<a href={{nextLink}}>Pagina Siguiente</a>
+{{/if}}

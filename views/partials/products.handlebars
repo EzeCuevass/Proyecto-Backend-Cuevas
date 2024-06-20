@@ -1,14 +1,16 @@
 {{!-- Por cada producto, imprime cada atributo que se pide abajo --}}
-{{#each products}}
+{{#each payload}}
 <div>
-    <p>id:{{id}}</p>
+    <a href="/products/:pid?id={{_id}}" target="_blank">
+    <img src="{{thumbnail}}" alt="foto {{title}}">
+    </a>
     <p>title:{{title}}</p>
     <p>description:{{description}}</p>
     <p>price:{{price}}</p>
-    <p>thumbnail:{{thumbnail}}</p>
     <p>code:{{code}}</p>
     <p>stock:{{stock}}</p>
     <p>categories:{{categories}}</p>
-    <p>status:{{status}}</p>
+    <a href="/products/:pid?id={{_id}}" target="_blank">Click Aqui para ver el producto</a>
+    <button onClick="addProdToCart('{{_id}}')">Agregar al carrito</button>
 </div>
 {{/each}}

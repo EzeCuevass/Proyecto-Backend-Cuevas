@@ -9,18 +9,19 @@ export const getAllProducts = async (req, res) => {
         const response = await prodManager.getAll(page, limit,name, sort);
         const nextLink = response.hasNextPage ?  `http://localhost:8080/products?page=${response.nextPage}` : null
         const prevLink = response.hasPrevPage ?  `http://localhost:8080/products?page=${response.prevPage}` : null
-        res.status(200).json({
+        const infoProducts = {
             status: 'success',
             payload: response.docs,
             totalPages: response.totalPages,
+            page: response.page,
             prevPage: response.prevPage,
             nextPage: response.nextPage,
-            page: response.page,
             hasNextPage: response.hasNextPage,
             hasPrevPage: response.hasPrevPage,
             prevLink,
             nextLink
-        })
+        }
+        res.status(200).render('index', infoProducts)
 
     } catch (error) {
         console.log(error);
@@ -41,7 +42,8 @@ export const getById = async (req, res) => {
     try {
         const { id } = req.query
         const prod = await prodManager.getById(id)
-        res.json(prod)
+        // console.log(prod);
+        res.render('product',prod)
     } catch (error) {
         console.log(error);
     }
