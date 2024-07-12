@@ -11,15 +11,33 @@ import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access
 import CartManager from './models/dao/carts.dao.js';
 import { CartModel } from './models/carts_model.js';
 import * as services from "./services/cart.services.js"
+import userRouter from './routes/user-router.js'
+import cookieParser from 'cookie-parser'
+import session from 'express-session'
+import 'dotenv/config'
+import MongoStore from 'connect-mongo'
+import ___dirname from "./utils.js"
 
-
+const MONGO = process.env.MONGO_URL
 const cartManager = new CartManager(CartModel)
 const productManager = new ProductManager()
 const app = express();
 
 app.use(express.json())
 app.use(express.urlencoded( {extended: true}))
-app.use(express.static('./public'))
+app.use(express.static(___dirname+'./public'))
+app.use(cookieParser("s3cr3t59"))
+app.use(
+    session({
+        secret: "viegoteamo59",
+        resave: true,
+        saveUninitialized: true,
+        store:MongoStore.create({
+            mongoUrl: "mongodb+srv://EzeCuevas:viegoteamo59@cluster0.bxumzls.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0",
+            ttl: 120,
+        })
+    })
+)
 
 // Handlebars
 
@@ -35,6 +53,7 @@ app.set('view engine', 'handlebars');
 app.use('/products', productRouter);
 app.use('/carts', cartsRouter)
 app.use('/realTimeProducts', viewsRouter)
+app.use('/sessions', userRouter)
 
 initMongoDB()
 
