@@ -21,7 +21,10 @@ export const getAllProducts = async (req, res) => {
             prevLink,
             nextLink
         }
-        res.status(200).render('index', infoProducts)
+        res.status(200).render('index', {
+            infoProducts: infoProducts,
+            user: req.session.user
+        })
 
     } catch (error) {
         console.log(error);

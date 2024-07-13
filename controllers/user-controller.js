@@ -13,7 +13,6 @@ export const viewRegister = async(req, res) =>{
 
 export const viewLog = async(req, res) =>{
     try {
-        console.log(req.session);
         res.render('login', {layout:'main2.handlebars'})
     } catch (error) {
         console.log(error);
@@ -35,15 +34,20 @@ export const logUser = async (req,res) => {
     try {
         const { email, password } = req.body
         const logedUser = await usermanager.log(email)
-        console.log(req.session);
-        if (email == logedUser.email && password == logedUser.password){
-            req.session.user = {
-                first_name: logedUser.first_name,
-                last_name: logedUser.last_name,
-                email: logedUser.email
+        if (req.session.user){
+            console.log(req.session);
+            res.redirect('/products')
+        }else{
+            if (email == logedUser.email && password == logedUser.password){
+                req.session.user = {
+                    first_name: logedUser.first_name,
+                    last_name: logedUser.last_name,
+                    email: logedUser.email
+                }
             }
+            res.redirect('/products')
         }
-        res.json(req.session.user)
+        
     } catch (error) {
         console.log(error);
         res.json(error);
@@ -60,5 +64,18 @@ export const logOut = async (req,res) => {
     } catch (error) {
         console.log(error);
         res.json(error)
+    }
+}
+export const profileView = async (req, res) => {
+    try {
+        if (req.session.user){
+            const info = req.session.user
+            res.render('profile', info)
+        } else {
+            res.redirect('/sessions/login')
+        }
+    } catch (error) {
+        res.status(400).json(error)
+        console.log(error);
     }
 }

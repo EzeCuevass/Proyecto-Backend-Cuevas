@@ -12,4 +12,6 @@ router.post('/login', controllers.logUser)
 
 router.get('/logout', controllers.logOut)
 
+router.get('/profile', controllers.profileView)
+
 export default router;

@@ -1,4 +1,7 @@
 {{!-- Con esto se llama al partial de products --}}
+{{#if user}}
+{{>userdata}}
+{{/if}}
 {{>products}}
 {{#if prevPage}}
 <a href={{prevLink}}>Pagina Anterior</a>
