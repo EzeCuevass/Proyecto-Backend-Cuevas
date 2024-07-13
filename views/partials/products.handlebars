@@ -1,16 +1,19 @@
 {{!-- Por cada producto, imprime cada atributo que se pide abajo --}}
 {{#each infoProducts.payload}}
-<div>
-    <a href="/products/:pid?id={{_id}}" target="_blank">
-    <img src="{{thumbnail}}" alt="foto {{title}}">
-    </a>
-    <p>title:{{title}}</p>
-    <p>description:{{description}}</p>
-    <p>price:{{price}}</p>
-    <p>code:{{code}}</p>
-    <p>stock:{{stock}}</p>
-    <p>categories:{{categories}}</p>
-    <a href="/products/:pid?id={{_id}}" target="_blank">Click Aqui para ver el producto</a>
-    <button onClick="addProdToCart('{{_id}}')">Agregar al carrito</button>
-</div>
+    <div class="col">
+        <div class="card" style="width: 18rem;">
+            <a href="/products/:pid?id={{_id}}" target="_blank"><img src="{{thumbnail}}" class="card-img-top" alt="foto {{title}}"></a>
+            <div class="card-body">
+                <h5 class="card-title">{{title}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">${{price}}</h6>
+                <p class="card-text">{{description}}</p>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Codigo:{{code}}</li>
+                    <li class="list-group-item">EN STOCK</li>
+                    <li class="list-group-item">{{categories}}</li>
+                </ul>
+                <a href="/products/:pid?id={{_id}}" class="btn btn-primary">Ver producto</a>
+            </div>
+        </div>
+    </div>
 {{/each}}

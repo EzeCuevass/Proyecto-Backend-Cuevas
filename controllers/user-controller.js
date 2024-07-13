@@ -4,7 +4,11 @@ const usermanager = new userManager()
 
 export const viewRegister = async(req, res) =>{
     try {
-        res.render('register', {layout:'main2.handlebars'})
+        if(req.session.user){
+            res.redirect('/products')
+        } else {
+            res.render('register')
+        }
     } catch (error) {
         console.log(error);
         res.json(error)
@@ -13,7 +17,11 @@ export const viewRegister = async(req, res) =>{
 
 export const viewLog = async(req, res) =>{
     try {
-        res.render('login', {layout:'main2.handlebars'})
+        if(req.session.user){
+            res.redirect('/products')
+        } else {
+            res.render('login')
+        }
     } catch (error) {
         console.log(error);
         res.json(error)

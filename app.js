@@ -33,7 +33,7 @@ app.use(
         resave: true,
         saveUninitialized: true,
         store:MongoStore.create({
-            mongoUrl: "mongodb+srv://EzeCuevas:viegoteamo59@cluster0.bxumzls.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0",
+            mongoUrl: MONGO,
             ttl: 120,
         })
     })
