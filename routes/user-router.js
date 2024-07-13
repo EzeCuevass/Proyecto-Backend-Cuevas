@@ -6,6 +6,10 @@ router.post('/register', controllers.createUser)
 
 router.get('/register', controllers.viewRegister)
 
-router.get('/login', controllers.logUser)
+router.get('/login', controllers.viewLog)
+
+router.post('/login', controllers.logUser)
+
+router.get('/logout', controllers.logOut)
 
 export default router;
