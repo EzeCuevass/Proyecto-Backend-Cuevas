@@ -1,5 +1,7 @@
 import ProductManager from "../models/dao/products.dao.js";
 import { ProductModel } from "../models/products_model.js";
+import { userModel } from "../models/user_model.js";
+
 
 const prodManager = new ProductManager(ProductModel)
 
@@ -21,9 +23,11 @@ export const getAllProducts = async (req, res) => {
             prevLink,
             nextLink
         }
+        
+        const user = await userModel.findById(req.session.passport.user) 
         res.status(200).render('index', {
             infoProducts: infoProducts,
-            user: req.session.user
+            user: user? user : null
         })
 
     } catch (error) {

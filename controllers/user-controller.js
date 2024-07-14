@@ -31,44 +31,31 @@ export const viewLog = async(req, res) =>{
     }
 }
 
-export const createUser = async (req,res) => {
-    try {
-        let datos = {
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-            email: req.body.email,
-            age: req.body.age,
-            password: createHash(req.body.password)
-        }
-        const newUser = await usermanager.create(datos);
-        res.redirect('/sessions/login')
-    } catch (error) {
-        console.log(error);
-        res.json(error)
-    }
-}
-export const logUser = async (req,res) => {
-    try {
-        const { email, password } = req.body
-        const logedUser = await usermanager.log(email)
-        if (req.session.user){
-            res.redirect('/products')
-        }else{
-            if (email == logedUser.email && comparePassword(password, logedUser.password)){
-                req.session.user = {
-                    first_name: logedUser.first_name,
-                    last_name: logedUser.last_name,
-                    email: logedUser.email
-                }
-            }
-            res.redirect('/products')
-        }
+// export const createUser = async (req,res) => {
+//     res.redirect('/sessions/login')
+// }
+// export const logUser = async (req,res) => {
+    // try {
+    //     const { email, password } = req.body
+    //     const logedUser = await usermanager.log(email)
+    //     if (req.session.user){
+    //         res.redirect('/products')
+    //     }else{
+    //         if (email == logedUser.email && comparePassword(password, logedUser.password)){
+    //             req.session.user = {
+    //                 first_name: logedUser.first_name,
+    //                 last_name: logedUser.last_name,
+    //                 email: logedUser.email
+    //             }
+    //         }
+    //         res.redirect('/products')
+    //     }
         
-    } catch (error) {
-        console.log(error);
-        res.json(error); 
-    }
-}
+    // } catch (error) {
+    //     console.log(error);
+    //     res.json(error); 
+    // }
+// }
 export const logOut = async (req,res) => {
     try {
         if(req.session.user){

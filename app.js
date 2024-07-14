@@ -10,13 +10,14 @@ import Handlebars from 'handlebars'
 import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access';
 import CartManager from './models/dao/carts.dao.js';
 import { CartModel } from './models/carts_model.js';
-import * as services from "./services/cart.services.js"
 import userRouter from './routes/user-router.js'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import 'dotenv/config'
 import MongoStore from 'connect-mongo'
 import ___dirname from "./utils.js"
+import passport from "passport"
+import initializePassport from './config/passport.config.js';
 
 const MONGO = process.env.MONGO_URL
 const cartManager = new CartManager(CartModel)
@@ -38,6 +39,11 @@ app.use(
         })
     })
 )
+
+// Passport
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Handlebars
 
