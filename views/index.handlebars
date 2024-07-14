@@ -5,10 +5,10 @@
 <div class="row row-cols-1 row-cols-md-3 g-4">
 {{>products}}
 </div>
-{{#if prevPage}}
-<a href={{prevLink}}>Pagina Anterior</a>
+{{#if infoProducts.prevPage}}
+<a href={{infoProducts.prevLink}}>Pagina Anterior</a>
 {{/if}}
 <br></br>
-{{#if nextPage}}
-<a href={{nextLink}}>Pagina Siguiente</a>
+{{#if infoProducts.nextPage}}
+<a href={{infoProducts.nextLink}}>Pagina Siguiente</a>
 {{/if}}

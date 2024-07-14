@@ -24,7 +24,7 @@ export const getAllProducts = async (req, res) => {
             nextLink
         }
         
-        const user = await userModel.findById(req.session.passport.user) 
+        const user = await userModel.findById(req.session?.passport?.user) 
         res.status(200).render('index', {
             infoProducts: infoProducts,
             user: user? user : null
