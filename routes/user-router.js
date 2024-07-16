@@ -21,6 +21,20 @@ router.post('/login',
         res.redirect('/sessions/profile') 
     })
 
+router.get('/github', 
+    passport.authenticate('github', 
+        {scope:['user:email']}),
+        async(req,res)=>{
+
+        })
+
+router.get('/githubCallback', passport.authenticate('github',
+    {failureRedirect:'/sessions/login'}
+), async(req,res)=>{
+    req.session.user = req.user
+    res.redirect('/products')
+})
+
 router.get('/logout', controllers.logOut)
 
 router.get('/profile', controllers.profileView)
