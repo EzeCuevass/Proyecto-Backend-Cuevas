@@ -4,6 +4,10 @@ import { userModel } from '../models/user_model.js';
 import { createHash, comparePassword } from '../utils.js';
 import userManager from "../models/dao/users.dao.js";
 import GithubStrategy from "passport-github2"
+import { ExtractJwt } from "passport-jwt"
+import JwtStrategy from 'passport-jwt/lib/strategy.js';
+import jsonwebtoken from 'jsonwebtoken';
+
 
 const usermanager = new userManager()
 
@@ -41,17 +45,24 @@ const initializePassport = () => {
             try {
                 const { email, password } = req.body
                 const logedUser = await usermanager.log(email)
-                
+                if (!logedUser){
+                    return done(null, false, { message : "Usuario no encontrado"})
+                }
+                if (!comparePassword(password, logedUser.password)){
+                    return done(null, false, { message : "Contraseña incorrecta"})
+                }
                 if (email == logedUser.email && comparePassword(password, logedUser.password)){
-                        req.session.user = {
-                            first_name: logedUser.first_name,
-                            last_name: logedUser.last_name,
-                            email: logedUser.email,
-                            _id: logedUser._id
-                        }
+                    console.log(comparePassword(password, logedUser.password));
+                    req.session.user = {
+                        first_name: logedUser.first_name,
+                        last_name: logedUser.last_name,
+                        email: logedUser.email,
+                        id: logedUser._id
                     }
+                }
+                console.log(req.sessionID);
                     // console.log(req.session);
-                    done(null, req.session.user)
+                return done(null, req.session.user)
                 
                 
             } catch (error) {
@@ -88,10 +99,9 @@ const initializePassport = () => {
             }
         }), 
     )
-
-
+    
     passport.serializeUser((user,done)=>{
-        done(null, user._id);
+        done(null, user.id);
     });
     passport.deserializeUser(async(id,done)=>{
         try {
@@ -101,6 +111,27 @@ const initializePassport = () => {
             done(error)
         }
     })
+    passport.use('jwt',
+        new JwtStrategy({
+            jwtFromRequest:ExtractJwt.fromExtractors([cookieExtractor]),
+            secretOrKey: process.env.PRIVATE_KEY,
+        },
+    async(payload, done)=>{
+        try {
+            return done(null, payload)
+        } catch (error) {
+            return done(error, false, {message: "Error al validar Token JWT"})
+        }
+    })
+    )
 }
+function cookieExtractor(req) {
+    let token = null
+    if (req && req.cookies) {
+        token = req.cookies["token"]
+    }
+    return token
+}
+
 
 export default initializePassport 

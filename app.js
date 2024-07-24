@@ -27,15 +27,15 @@ const app = express();
 app.use(express.json())
 app.use(express.urlencoded( {extended: true}))
 app.use(express.static(___dirname+'./public'))
-app.use(cookieParser("s3cr3t59"))
+app.use(cookieParser())
 app.use(
     session({
-        secret: "viegoteamo59",
+        secret: process.env.SECRET_SESSIONS,
         resave: true,
         saveUninitialized: true,
         store:MongoStore.create({
             mongoUrl: MONGO,
-            ttl: 120,
+            ttl: 500,
         })
     })
 )

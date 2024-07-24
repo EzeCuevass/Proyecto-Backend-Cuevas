@@ -25,6 +25,7 @@ export const getAllProducts = async (req, res) => {
         }
         
         const user = await userModel.findById(req.session?.passport?.user) 
+        console.log(req.sessionID);
         res.status(200).render('index', {
             infoProducts: infoProducts,
             user: user? user : null
