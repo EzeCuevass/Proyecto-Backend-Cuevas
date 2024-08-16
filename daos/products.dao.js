@@ -24,7 +24,6 @@ export default class ProductManager {
     }
     async create(obj){
         try {
-            console.log(obj);
             return await this.model.create(obj)
         } catch (error) {
             console.log(error);

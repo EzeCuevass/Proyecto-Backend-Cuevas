@@ -1,4 +1,5 @@
 const socket = io();
+console.log(localStorage);
 if (localStorage.length==0){
     socket.emit('cart')
     socket.on('cartFront', async(cart)=>{

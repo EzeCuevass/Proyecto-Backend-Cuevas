@@ -1,10 +1,9 @@
 import { productRepository } from "../repository/index.js";
-
+import jwt from "jsonwebtoken"
 
 
 export const getAllProducts = async (req, res) => {
     try { 
-        console.log(req.cookies);
         const {page, limit,name, sort} = req.query;
         const response = await productRepository.getProducts(page, limit,name, sort);
         const nextLink = response.hasNextPage ?  `http://localhost:8080/products?page=${response.nextPage}` : null
@@ -24,9 +23,15 @@ export const getAllProducts = async (req, res) => {
         
         // const user = await userModel.findById(req.session?.passport?.user) 
         // console.log(req.sessionID);
+        
+        if(req.cookies.currentUser){
+            const decoded = jwt.verify(req.cookies.currentUser, process.env.PRIVATE_KEY)
+            req.user = decoded.user
+        }
+
         res.status(200).render('index', {
-            infoProducts: infoProducts
-            // user: user? user : null
+            infoProducts: infoProducts,
+            user: req.user? req.user : null,
         })
 
     } catch (error) {
@@ -36,7 +41,6 @@ export const getAllProducts = async (req, res) => {
 
 export const addProduct = async (req, res) => {
     try {
-        console.log(req.user);
         const product = req.product
         const newProduct = await productRepository.create(product)
         res.json(newProduct)
@@ -50,7 +54,6 @@ export const getById = async (req, res) => {
     try {
         const { id } = req.query
         const prod = await productRepository.getById(id)
-        // console.log(prod);
         res.render('product',prod)
     } catch (error) {
         console.log(error);

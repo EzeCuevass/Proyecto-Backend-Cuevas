@@ -19,7 +19,7 @@ import MongoStore from 'connect-mongo'
 import ___dirname from "./utils.js"
 import passport from "passport"
 import initializePassport from './config/passport.config.js';
-
+import path from "path"
 const MONGO = process.env.MONGO_URL
 const cartManager = new CartManager(CartModel)
 const productManager = new ProductManager()
@@ -27,7 +27,7 @@ const app = express();
 
 app.use(express.json())
 app.use(express.urlencoded( {extended: true}))
-app.use(express.static(___dirname+'./public'))
+app.use("/public", express.static(path.join(___dirname, 'public')))
 app.use(cookieParser())
 app.use(
     session({
@@ -76,21 +76,6 @@ const socketServer = new Server(httpServer)
 
 // Cuando las rutas con socket.io reciben una conexion, se lleva a cabo el siguiente codigo:
 socketServer.on('connection', async(socket)=>{
-    // El serviddor, emite una "funcion" con el nombre products, que contiene los productos, que son traidos
-    // con el Product Manager
-    socketServer.emit('products', await productManager.getProducts())
-    // Cuando del lado del clente se recibe la funcion de "newProduct", trae el producto nuevo y lo introduce
-    // en el .json con el productManager, y esto se imprime de nuevo en pantalla con la linea de abajo que
-    // trae de nuevo los productos
-    socket.on('newProduct', async(product)=>{
-        await productManager.addProduct(product.inputTitle,product.inputDesc,product.inputPrice,product.inputThumb,product.inputCode,product.inputStock,product.inputCategories);
-        socketServer.emit('products', await productManager.getProducts())
-    })
-    // En el momento que se ejecuta el deleteProduct del lado del cliente, se recibe el id y se elimina con
-    // el metodo deleteProduct
-    socket.on('deleteProduct', async(id)=>{
-        await productManager.deleteProduct(id)
-    })
     socket.on('cart', async(cart)=>{
         const cartFront = await cartManager.createCart()
         socket.emit('cartFront', cartFront)

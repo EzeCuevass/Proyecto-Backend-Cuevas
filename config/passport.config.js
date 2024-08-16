@@ -63,7 +63,6 @@ const initializePassport = () => {
                         id: logedUser._id
                     }
                 }
-                    console.log(req.session);
                 return done(null, req.session.user)
             } catch (error) {
                 console.log(error);
@@ -90,7 +89,6 @@ const initializePassport = () => {
                         age: 18,
                         password: ' '
                     }
-                    console.log(profile);
                     const newUser = await usermanager.create(datos)
                     done(null, newUser)
                 }

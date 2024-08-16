@@ -1,6 +1,7 @@
 import userManager from "../daos/users.dao.js";
 import { createHash } from "../utils.js";
 import { comparePassword } from "../utils.js";
+
 // import { userModel } from '../models/user_model.js';
 
 const usermanager = new userManager()
@@ -46,13 +47,9 @@ export const logOut = async (req,res) => {
 }
 export const profileView = async (req, res) => {
     try {
-        // console.log(req);
-        // console.log(req.sessionID);
         if (!req.session.user){
             return res.redirect('/sessions/login')
         }
-        // const user = await userModel.findById(req.session.user.id)
-        // req.session.user = user
         const info = req.session.user
         res.render('profile', info)
         
