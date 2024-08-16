@@ -1,14 +1,11 @@
-import ProductManager from "../models/dao/products.dao.js";
-import { ProductModel } from "../models/products_model.js";
-import { userModel } from "../models/user_model.js";
+import { productRepository } from "../repository/index.js";
 
 
-const prodManager = new ProductManager(ProductModel)
 
 export const getAllProducts = async (req, res) => {
     try { 
         const {page, limit,name, sort} = req.query;
-        const response = await prodManager.getAll(page, limit,name, sort);
+        const response = await productRepository.getProducts(page, limit,name, sort);
         const nextLink = response.hasNextPage ?  `http://localhost:8080/products?page=${response.nextPage}` : null
         const prevLink = response.hasPrevPage ?  `http://localhost:8080/products?page=${response.prevPage}` : null
         const infoProducts = {
@@ -24,11 +21,11 @@ export const getAllProducts = async (req, res) => {
             nextLink
         }
         
-        const user = await userModel.findById(req.session?.passport?.user) 
-        console.log(req.sessionID);
+        // const user = await userModel.findById(req.session?.passport?.user) 
+        // console.log(req.sessionID);
         res.status(200).render('index', {
-            infoProducts: infoProducts,
-            user: user? user : null
+            infoProducts: infoProducts
+            // user: user? user : null
         })
 
     } catch (error) {
@@ -38,7 +35,8 @@ export const getAllProducts = async (req, res) => {
 
 export const addProduct = async (req, res) => {
     try {
-        const newProduct = await prodManager.create(req.body)
+        const product = req.product
+        const newProduct = await productRepository.create(product)
         res.json(newProduct)
     } catch (error) {
         console.log(error);
@@ -49,7 +47,7 @@ export const addProduct = async (req, res) => {
 export const getById = async (req, res) => {
     try {
         const { id } = req.query
-        const prod = await prodManager.getById(id)
+        const prod = await productRepository.getById(id)
         // console.log(prod);
         res.render('product',prod)
     } catch (error) {
@@ -60,7 +58,7 @@ export const getById = async (req, res) => {
 export const deleteProd = async (req, res) => {
     try {
         const { id } = req.query
-        await prodManager.delete(id)
+        await productRepository.delete(id)
         res.json("Product deleted")
     } catch (error) {
         console.log(error);
@@ -70,7 +68,7 @@ export const deleteProd = async (req, res) => {
 export const updateProduct = async (req, res) => {
     try {
         const { id } = req.query
-        await prodManager.update(id, req.body) 
+        await productRepository.update(id, req.body) 
         res.json("Product Updated")
     } catch (error) {
         console.log(error);

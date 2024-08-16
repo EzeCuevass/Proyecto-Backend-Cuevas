@@ -4,12 +4,13 @@ import cartsRouter from './routes/carts-router.js'
 import handlebars from 'express-handlebars'
 import { Server } from 'socket.io';
 import viewsRouter from './routes/views-router.js'
-import { ProductManager } from './managers/product-manager.js';
+import ProductManager from './daos/products.dao.js';
 import { initMongoDB } from './db/connect.js';
 import Handlebars from 'handlebars'
 import { allowInsecurePrototypeAccess } from '@handlebars/allow-prototype-access';
-import CartManager from './models/dao/carts.dao.js';
-import { CartModel } from './models/carts_model.js';
+import CartManager from './daos/carts.dao.js';
+// import { CartModel } from './models/carts_model.js';
+import {CartModel} from './daos/models/carts_model.js'
 import userRouter from './routes/user-router.js'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'

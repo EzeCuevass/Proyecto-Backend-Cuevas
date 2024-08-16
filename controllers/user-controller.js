@@ -1,7 +1,7 @@
-import userManager from "../models/dao/users.dao.js";
+import userManager from "../daos/users.dao.js";
 import { createHash } from "../utils.js";
 import { comparePassword } from "../utils.js";
-import { userModel } from '../models/user_model.js';
+// import { userModel } from '../models/user_model.js';
 
 const usermanager = new userManager()
 

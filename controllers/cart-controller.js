@@ -1,5 +1,5 @@
-import CartManager from "../models/dao/carts.dao.js";
-import { CartModel } from "../models/carts_model.js";
+import CartManager from "../daos/carts.dao.js";
+import { CartModel } from "../daos/models/carts_model.js";
 import * as services from "../services/cart.services.js"
 
 const cartManager = new CartManager(CartModel)

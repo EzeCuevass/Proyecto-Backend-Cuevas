@@ -1,11 +1,11 @@
+import { ProductModel } from "./models/products_model.js";
 export default class ProductManager {
-    constructor(model){
-        this.model = model;
+    constructor(){
+        this.model = ProductModel;
     }
 
     async getAll(page=1, limit = 5,name, sort){
         try {
-            // return await this.model.find({});
             const filter = name ? {'name':name} : {};
             let sortOrder= {};
             if(sort) sortOrder.price = sort === 'asc' ? 1 : sort === 'desc' ? -1 : null;

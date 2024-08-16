@@ -1,8 +1,8 @@
 import passport from 'passport';
 import local from 'passport-local';
-import { userModel } from '../models/user_model.js';
+import { userModel } from '../daos/models/user_model.js';
 import { createHash, comparePassword } from '../utils.js';
-import userManager from "../models/dao/users.dao.js";
+import userManager from "../daos/users.dao.js";
 import GithubStrategy from "passport-github2"
 import { ExtractJwt } from "passport-jwt"
 import JwtStrategy from 'passport-jwt/lib/strategy.js';
@@ -63,8 +63,6 @@ const initializePassport = () => {
                 console.log(req.sessionID);
                     // console.log(req.session);
                 return done(null, req.session.user)
-                
-                
             } catch (error) {
                 console.log(error);
                 res.json(error); 
