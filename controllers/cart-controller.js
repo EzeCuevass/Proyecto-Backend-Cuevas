@@ -1,9 +1,9 @@
 import CartManager from "../daos/carts.dao.js";
 import { CartModel } from "../daos/models/carts_model.js";
-import * as services from "../services/cart.services.js"
+import { cartRepository } from "../repository/index.js";
+// import * as services from "../services/cart.services.js"
 
-const cartManager = new CartManager(CartModel)
-
+const cartManager = cartRepository
 export const getAllCarts = async (req, res) => {
     try {
         const carts = await cartManager.getAll();

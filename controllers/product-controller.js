@@ -4,6 +4,7 @@ import { productRepository } from "../repository/index.js";
 
 export const getAllProducts = async (req, res) => {
     try { 
+        console.log(req.cookies);
         const {page, limit,name, sort} = req.query;
         const response = await productRepository.getProducts(page, limit,name, sort);
         const nextLink = response.hasNextPage ?  `http://localhost:8080/products?page=${response.nextPage}` : null
@@ -35,6 +36,7 @@ export const getAllProducts = async (req, res) => {
 
 export const addProduct = async (req, res) => {
     try {
+        console.log(req.user);
         const product = req.product
         const newProduct = await productRepository.create(product)
         res.json(newProduct)

@@ -1,13 +1,20 @@
 import { Router } from "express";
 import * as controllers from "../controllers/product-controller.js";
 import { validateProduct } from "../middlewares/validate.middleware.js";
+import { authorizations } from "../middlewares/authorization.middleware.js";
+import { authToken } from "../utils.js";
+
 const router = Router();
 
 router.get('/', controllers.getAllProducts)
 
 router.get('/:pid', controllers.getById)
 
-router.post('/', validateProduct, controllers.addProduct)
+router.post('/', 
+    authToken,
+    authorizations(["admin"]),
+    validateProduct,
+    controllers.addProduct)
 
 router.delete('/:pid', controllers.deleteProd)
 

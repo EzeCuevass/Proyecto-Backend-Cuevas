@@ -33,8 +33,8 @@ export const viewLog = async(req, res) =>{
 
 export const logOut = async (req,res) => {
     try {
-        if(req.session.user){
-            req.session.destroy()
+        if(req.cookies.currentUser){
+            res.clearCookie("currentUser")
             res.redirect("/sessions/login")
         } else {
             res.redirect("/sessions/login")

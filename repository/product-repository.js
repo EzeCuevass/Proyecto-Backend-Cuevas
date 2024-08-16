@@ -11,6 +11,8 @@ export class ProductRepository {
         return await this.dao.getById(id)
     }
     async create(obj){
+        console.log(obj);
+        
         return await this.dao.create(obj)
     }
     async delete(id){

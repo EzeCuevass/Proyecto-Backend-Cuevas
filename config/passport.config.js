@@ -7,9 +7,10 @@ import GithubStrategy from "passport-github2"
 import { ExtractJwt } from "passport-jwt"
 import JwtStrategy from 'passport-jwt/lib/strategy.js';
 import jsonwebtoken from 'jsonwebtoken';
+import { userRepository } from '../repository/index.js';
 
 
-const usermanager = new userManager()
+const usermanager = userRepository
 
 const GITSECRET = process.env.GITHUB_CLIENT_SECRET
 
@@ -45,6 +46,8 @@ const initializePassport = () => {
             try {
                 const { email, password } = req.body
                 const logedUser = await usermanager.log(email)
+                console.log(logedUser);
+                
                 if (!logedUser){
                     return done(null, false, { message : "Usuario no encontrado"})
                 }
@@ -52,16 +55,15 @@ const initializePassport = () => {
                     return done(null, false, { message : "Contraseña incorrecta"})
                 }
                 if (email == logedUser.email && comparePassword(password, logedUser.password)){
-                    console.log(comparePassword(password, logedUser.password));
                     req.session.user = {
                         first_name: logedUser.first_name,
                         last_name: logedUser.last_name,
                         email: logedUser.email,
+                        role: logedUser.role,
                         id: logedUser._id
                     }
                 }
-                console.log(req.sessionID);
-                    // console.log(req.session);
+                    console.log(req.session);
                 return done(null, req.session.user)
             } catch (error) {
                 console.log(error);
