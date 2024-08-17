@@ -1,7 +1,11 @@
 <h1>Tus productos:</h1>
-{{#each products}}
+{{#each Cart.products}}
 <p>{{product.title}}</p>
 <p>{{product.description}}</p>
 <p>{{product.price}}</p>
 <p>Cantidad:{{quantity}}</p>
 {{/each}}
+<p>El precio total es de {{amount}}</p>
+<form action="/carts/{{Cart._id}}/purchase" method="POST">
+    <button type="submit" class="btn btn-primary" >Comprar Carrito</button>
+</form>

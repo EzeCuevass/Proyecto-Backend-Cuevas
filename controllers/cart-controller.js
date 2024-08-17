@@ -1,6 +1,7 @@
 import CartManager from "../daos/carts.dao.js";
 import { CartModel } from "../daos/models/carts_model.js";
-import { cartRepository } from "../repository/index.js";
+import { TicketDto } from "../dtos/ticket.dto.js";
+import { cartRepository, ticketRepository } from "../repository/index.js";
 // import * as services from "../services/cart.services.js"
 
 const cartManager = cartRepository
@@ -26,7 +27,16 @@ export const getCartById = async (req, res) => {
     try {
         const { id } = req.query
         const Cart = await cartManager.getCartById(id)
-        res.render('cart', Cart)
+        let amount = 0
+        Cart.products.forEach(element => {
+                amount += element.quantity * element.product.price
+                // console.log("dou");
+                
+        });
+        res.render('cart',{
+            Cart: Cart,
+            amount: amount
+        })
     } catch (error) {
         console.log(error);
     }
@@ -69,6 +79,25 @@ export const emptyCart = async (req,res) => {
         const {cid} = req.params
         const emptyCart = await cartManager.emptyCart(cid)
         res.json(emptyCart) 
+    } catch (error) {
+        console.log(error);
+    }
+}
+export const purchaseCart = async (req, res) => {
+    try {
+        const { cid } = req.params
+        
+        const Cart = await cartManager.getCartById(cid)
+        console.log(Cart);
+        
+        let amount = 0
+        Cart.products.forEach(element => {
+            amount += element.quantity * element.product.price
+            
+        });
+        const ticket = new TicketDto(amount,req.user.email)
+        ticketRepository.createTicket(ticket)
+        res.redirect('/products')
     } catch (error) {
         console.log(error);
     }

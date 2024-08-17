@@ -6,19 +6,21 @@ const router = Router();
 import * as controllers from "../controllers/cart-controller.js"
 import { authorizations } from "../middlewares/authorization.middleware.js";
 import { authToken } from "../utils.js";
+
 // const cartsManager = new cartManager()
 
 router.get('/', controllers.getAllCarts)
 
 router.post('/', 
-    // authToken,
-    // authorizations(["user"]),
+    authToken,
+    authorizations(["user"]),
     controllers.createCart)
 
 router.get('/:cid', 
-    // authToken,
-    // authorizations(["user"]),
-    controllers.getCartById)
+    authToken,
+    authorizations(["user"]),
+    controllers.getCartById,
+)
 
 router.post('/:cid/product/:pid', 
     authToken,
@@ -40,4 +42,9 @@ router.delete('/:cid',
     authorizations(["user"]),
     controllers.emptyCart)
 
+router.post('/:cid/purchase',
+    authToken,
+    authorizations(["user"]),
+    controllers.purchaseCart
+)
 export default router

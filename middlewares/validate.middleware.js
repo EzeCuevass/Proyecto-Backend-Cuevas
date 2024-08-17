@@ -1,7 +1,8 @@
 import { authDto } from "../dtos/auth.dto.js"
 import { ProductDto } from "../dtos/product.dto.js"
 import { UserDto } from "../dtos/user.dto.js"
-
+import { TicketDto } from "../dtos/ticket.dto.js"
+import * as controllers from "../controllers/cart-controller.js"
 export function validateProduct(req, res, next){
     const {title,description,price,thumbnail,code,stock,categories} = req.body
 
@@ -18,6 +19,7 @@ export function validateRegister(req, res, next){
     const user = new UserDto(first_name, last_name, email, age, password)
 
     req.newUser = user
+    next()
 }
 
 export function validateLogin (req, res, next){
@@ -26,4 +28,5 @@ export function validateLogin (req, res, next){
     const user = new authDto(email, password)
 
     req.user = user
+    next()
 }
