@@ -16,8 +16,16 @@ router.post('/',
     validateProduct,
     controllers.addProduct)
 
-router.delete('/:pid', controllers.deleteProd)
+router.delete('/:pid',
+    authToken,
+    authorizations(["admin"]),
+    validateProduct,
+    controllers.deleteProd)
 
-router.put('/:pid', controllers.updateProduct)
+router.put('/:pid',
+    authToken,
+    authorizations(["admin"]),
+    validateProduct, 
+    controllers.updateProduct)
 
 export default router;

@@ -16,3 +16,6 @@ function addProdToCart(prodId) {
     socket.emit('addProductToCart', { cartId, prodId });
     console.log("Producto añadido al carrito.");
 }
+function deleteCart(){
+    localStorage.removeItem("id")
+}

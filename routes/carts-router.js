@@ -11,13 +11,13 @@ import { authToken } from "../utils.js";
 router.get('/', controllers.getAllCarts)
 
 router.post('/', 
-    authToken,
-    authorizations(["user"]),
+    // authToken,
+    // authorizations(["user"]),
     controllers.createCart)
 
 router.get('/:cid', 
-    authToken,
-    authorizations(["user"]),
+    // authToken,
+    // authorizations(["user"]),
     controllers.getCartById)
 
 router.post('/:cid/product/:pid', 

@@ -89,6 +89,7 @@ const initializePassport = () => {
                         age: 18,
                         password: ' '
                     }
+                    console.log(profile);
                     const newUser = await usermanager.create(datos)
                     done(null, newUser)
                 }

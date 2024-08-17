@@ -1,6 +1,8 @@
+import { CartModel } from "./models/carts_model.js";
+
 export default class CartManager {
     constructor(model){
-        this.model = model
+        this.model = CartModel
     }
     async getAll(){
         try {

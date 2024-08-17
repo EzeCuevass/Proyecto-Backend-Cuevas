@@ -6,7 +6,7 @@ import { cartRepository } from "../repository/index.js";
 const cartManager = cartRepository
 export const getAllCarts = async (req, res) => {
     try {
-        const carts = await cartManager.getAll();
+        const carts = await cartRepository.getAll();
         res.json(carts)
     } catch (error) {
         console.log(error);
@@ -16,7 +16,7 @@ export const getAllCarts = async (req, res) => {
 export const createCart = async (req,res) => {
     try {
         const newCart = await cartManager.createCart()
-        res.json(newCart)
+        return newCart
     } catch (error) {
         console.log(error);
     }

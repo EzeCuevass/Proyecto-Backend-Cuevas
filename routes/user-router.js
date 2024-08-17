@@ -5,7 +5,7 @@ import { authToken, generateToken } from "../utils.js";
 import { UserDto } from "../dtos/user.dto.js";
 import { validateLogin, validateRegister } from "../middlewares/validate.middleware.js";
 import { authorizations } from "../middlewares/authorization.middleware.js";
-
+import { createCart } from "../controllers/cart-controller.js";
 
 const router = Router();
 
