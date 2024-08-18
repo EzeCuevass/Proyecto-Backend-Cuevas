@@ -1,7 +1,7 @@
 import CartManager from "../daos/carts.dao.js";
 import { CartModel } from "../daos/models/carts_model.js";
 import { TicketDto } from "../dtos/ticket.dto.js";
-import { cartRepository, ticketRepository } from "../repository/index.js";
+import { cartRepository, productRepository, ticketRepository } from "../repository/index.js";
 // import * as services from "../services/cart.services.js"
 
 const cartManager = cartRepository
@@ -88,16 +88,28 @@ export const purchaseCart = async (req, res) => {
         const { cid } = req.params
         
         const Cart = await cartManager.getCartById(cid)
-        console.log(Cart);
+        // console.log(Cart);
         
         let amount = 0
-        Cart.products.forEach(element => {
+        
+        let noStock = false
+        Cart.products.forEach(async (element) => {
             amount += element.quantity * element.product.price
-            
+            const product = await productRepository.getById(element.product._id)
+            if(element.quantity>product.stock){
+                noStock = true
+            } else {
+                const quantity = product.stock - element.quantity
+                await productRepository.discount(element.product._id, quantity)
+            }
         });
-        const ticket = new TicketDto(amount,req.user.email)
-        ticketRepository.createTicket(ticket)
-        res.redirect('/products')
+        if (noStock == false){        
+            const ticket = new TicketDto(amount,req.user.email)
+            ticketRepository.createTicket(ticket)
+            res.redirect('/products')
+        } else {
+            res.json("La compra no se pudo realizar, el stock de un producto no alcanza")
+        }
     } catch (error) {
         console.log(error);
     }

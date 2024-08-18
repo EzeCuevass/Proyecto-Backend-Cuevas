@@ -19,4 +19,7 @@ export class ProductRepository {
     async update(id, obj){
         return await this.dao.update(id, obj)
     }
+    async discount(id, quantity){
+        return await this.dao.discount(id,quantity)
+    }
 }

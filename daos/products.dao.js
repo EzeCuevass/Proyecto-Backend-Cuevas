@@ -43,4 +43,7 @@ export default class ProductManager {
             console.log(error);
         }
     }
+    async discount(id, quantity){
+        return await this.model.updateOne({id}, {$set: {stock: quantity}})
+    }
 }
