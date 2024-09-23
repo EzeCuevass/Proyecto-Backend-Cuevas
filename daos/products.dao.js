@@ -4,7 +4,7 @@ export default class ProductManager {
         this.model = ProductModel;
     }
 
-    async getAll(page=1, limit = 5,name, sort){
+    async getAll(page=1, limit = 6,name, sort){
         try {
             const filter = name ? {'name':name} : {};
             let sortOrder= {};
