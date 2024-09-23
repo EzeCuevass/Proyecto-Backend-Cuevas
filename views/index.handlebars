@@ -5,10 +5,17 @@
 <div class="caja-productos">
 {{>products}}
 </div>
-{{#if infoProducts.prevPage}}
-<a href={{infoProducts.prevLink}}>Pagina Anterior</a>
-{{/if}}
-<br></br>
-{{#if infoProducts.nextPage}}
-<a href={{infoProducts.nextLink}}>Pagina Siguiente</a>
-{{/if}}
+<nav aria-label="Page navigation example"></nav>
+  <ul class="pagination d-flex justify-content-between">
+    {{#if infoProducts.prevPage}}
+        <li class="page-item mx-3"><a class="page-link" href={{infoProducts.prevLink}}>Pagina Anterior</a></li>
+    {{else}}
+        <li class="page-item mx-3"></li>
+    {{/if}}
+    {{#if infoProducts.nextPage}}
+        <li class="page-item mx-3"><a class="page-link" href={{infoProducts.nextLink}}>Pagina Siguiente</a></li>
+    {{else}}
+        <li class="page-item mx-3"></li>
+    {{/if}}
+  </ul>
+</nav>
