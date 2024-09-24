@@ -23,3 +23,22 @@
     width: 100%;
     display: block;
 }
+.contenedor-specs{
+    display: flex;
+    flex-direction: column;
+    width: 46rem;
+}
+.contenedor-img-specs{
+    display: flex;
+    width: 40rem;
+    height: 40rem;
+}
+.img-specs{
+    width: 100%;
+}
+.elementos-producto{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
