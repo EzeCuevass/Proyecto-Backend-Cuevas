@@ -29,9 +29,7 @@ export const generateToken = (user) =>{
 export const authToken = (req, res, next) => {
     const token = req.cookies.currentUser;
     if(!token) {
-        return res.status(400).json({
-            error: "Missing Token"
-        })
+        return res.redirect('/sessions/login')
     }
     try {
         const decoded = jwt.verify(token, process.env.PRIVATE_KEY)
